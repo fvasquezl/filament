@@ -33,6 +33,11 @@ class UserResource extends Resource
                     ->password()
                     ->required(fn($livewire) => $livewire instanceof CreateUser)
                     ->dehydrated(fn($state) => filled($state)),
+                Forms\Components\Select::make('house_id')
+                    ->relationship('house', 'name')
+                    ->preload()
+                    ->placeholder('Seleccione una casa')
+                    ->nullable()
             ]);
     }
 
@@ -47,6 +52,10 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('house.name')
+                    ->icon('heroicon-o-home')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

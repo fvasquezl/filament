@@ -10,12 +10,16 @@ class House extends Model
     protected $fillable = [
         'name',
         'address',
-        'user_id',
     ];
 
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'houses_posts');
     }
 
 }

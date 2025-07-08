@@ -22,6 +22,11 @@ class Post extends Model
     }
 
 
+    public function houses()
+    {
+        return $this->belongsToMany(House::class, 'houses_posts');
+    }
+
 
     /**
      * Accessor para obtener la URL completa de la imagen

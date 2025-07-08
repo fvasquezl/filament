@@ -42,14 +42,18 @@ class PostResource extends Resource
                     ->panelLayout('integrated')
                     ->removeUploadedFileButtonPosition('right')
                     ->uploadButtonPosition('left')
-                    ->uploadProgressIndicatorPosition('left')
+                    ->uploadProgressIndicatorPosition('left'),
+                Forms\Components\CheckboxList::make('houses')
+                    ->relationship('houses', 'name')
+                    ->nullable()
+
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn ($query) => $query->where('user_id', auth()->id()))
+            ->modifyQueryUsing(fn($query) => $query->where('user_id', auth()->id()))
             ->columns([
 
                 Tables\Columns\TextColumn::make('title')
@@ -63,6 +67,9 @@ class PostResource extends Resource
                     ->defaultImageUrl(url('/images/placeholder.jpg')),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label("Author")
+                    ->sortable(),
+                Tables\Columns\BadgeColumn::make('houses.name')
+                    ->label('Houses')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

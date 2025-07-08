@@ -20,9 +20,15 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Sebastian Vasquez', 'email' => 'svasquez@local.com']
         ];
 
+
         foreach ($users as $user) {
             User::factory()->create($user);
         }
+        User::factory(9)->create();
+
+        User::find(1)->assignRole('super_admin');
+
+
 
         $houses = [
             ['name' => 'Tijuana', 'address' => '123 Main St'],
@@ -33,6 +39,7 @@ class DatabaseSeeder extends Seeder
         foreach ($houses as $house) {
             House::create($house);
         }
+
 
     }
 }
