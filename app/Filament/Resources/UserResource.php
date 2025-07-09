@@ -50,8 +50,10 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->copyable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
+                Tables\Columns\BadgeColumn::make('role.name')
+                    ->label('Role')
+                    ->icon('heroicon-o-badge-check')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('house.name')
                     ->icon('heroicon-o-home')

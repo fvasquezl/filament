@@ -14,7 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+
+        $this->call([
+            ShieldSeeder::class,
+        ]);
+
         $users = [
             ['name' => 'Faustino Vasquez', 'email' => 'fvasquez@local.com'],
             ['name' => 'Sebastian Vasquez', 'email' => 'svasquez@local.com']
@@ -24,16 +28,15 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $user) {
             User::factory()->create($user);
         }
-        User::factory(9)->create();
 
         User::find(1)->assignRole('super_admin');
-
+        User::factory(9)->create();
 
 
         $houses = [
             ['name' => 'Tijuana', 'address' => '123 Main St'],
             ['name' => 'Rosarito', 'address' => '456 Elm St'],
-            ['name' => 'Costa Blanca', 'address' => '789 Oak St'],
+            ['name' => 'Cuesta Blanca', 'address' => '789 Oak St'],
         ];
 
         foreach ($houses as $house) {

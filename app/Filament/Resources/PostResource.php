@@ -71,6 +71,21 @@ class PostResource extends Resource
                 Tables\Columns\BadgeColumn::make('houses.name')
                     ->label('Houses')
                     ->sortable(),
+                Tables\Columns\ToggleColumn::make('active')
+                    ->label('Active')
+                    ->onColor('success')
+                    ->offColor('gray')
+                    ->onIcon('heroicon-m-check-circle')
+                    ->offIcon('heroicon-m-x-circle')
+                    ->alignCenter()
+                    ->sortable()
+                    ->afterStateUpdated(function ($record, $state) {
+                        \Filament\Notifications\Notification::make()
+                            ->title($state ? 'Post active' : 'Post deactivated')
+                            ->body($state ? 'This post is now visible in the associated houses.' : 'The post has been deactivated.')
+                            ->success()
+                            ->send();
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
