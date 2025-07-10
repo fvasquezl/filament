@@ -66,4 +66,5 @@ class Post extends Model
     {
         return $this->image ? \Storage::url($this->image) : null;
     }
+
 }

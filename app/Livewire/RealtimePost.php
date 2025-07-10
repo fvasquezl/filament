@@ -23,14 +23,8 @@ class RealtimePost extends Component
             })->where('active', true)->first();
         }
         if ($post) {
-            $this->latestPost = [
-                'id' => $post->id,
-                'title' => $post->title,
-                'image' => $post->image_url,
-                'active' => $post->active,
-                'created_at' => $post->created_at,
-                'updated_at' => $post->updated_at,
-            ];
+            $this->latestPost = $post->toArray();
+            $this->latestPost['image'] = $post->image_url;
         }
     }
 
