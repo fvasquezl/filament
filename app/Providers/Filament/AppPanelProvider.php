@@ -27,7 +27,6 @@ class AppPanelProvider extends PanelProvider
             ->default()
             ->id('app')
             ->path('app')
-            ->registration()
             ->profile()
             ->login()
             ->colors([
@@ -63,6 +62,6 @@ class AppPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])->sidebarFullyCollapsibleOnDesktop();
     }
 }

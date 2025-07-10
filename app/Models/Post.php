@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\PostActivated;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -29,8 +30,10 @@ class Post extends Model
 
                 // Usar withoutEvents para evitar disparar eventos en cascada
                 static::withoutEvents(function () use ($post, $houseIds) {
-                    static::whereHas('houses', function ($query) use ($houseIds) {
-                        $query->whereIn('houses.id', $houseIds);
+                    static::whereIn('id', function ($query) use ($houseIds) {
+                        $query->select('post_id')
+                              ->from('houses_posts')
+                              ->whereIn('house_id', $houseIds);
                     })
                         ->where('id', '!=', $post->id)
                         ->where('active', true)
@@ -41,7 +44,7 @@ class Post extends Model
 
         static::updated(function ($post) {
             if ($post->wasChanged('active')) {
-                PostActivated::dispatch($post->fresh());
+                PostActivated::dispatch($post->fresh()->load('houses'));
             }
         });
     }
@@ -64,7 +67,7 @@ class Post extends Model
      */
     public function getImageUrlAttribute()
     {
-        return $this->image ? \Storage::url($this->image) : null;
+        return $this->image ? Storage::url($this->image) : null;
     }
 
 }

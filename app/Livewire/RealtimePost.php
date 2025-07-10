@@ -30,9 +30,9 @@ class RealtimePost extends Component
 
 
 
+
     public function handlePostUpdated($event = null)
     {
-        \Log::info('handlePostUpdated called', ['event' => $event]);
         if (!$event || !is_array($event)) {
             return;
         }
