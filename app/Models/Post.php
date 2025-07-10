@@ -40,8 +40,8 @@ class Post extends Model
         });
 
         static::updated(function ($post) {
-            if ($post->wasChanged('active') && $post->active) {
-                broadcast(new PostActivated($post->fresh()))->toOthers();
+            if ($post->wasChanged('active')) {
+                PostActivated::dispatch($post->fresh());
             }
         });
     }

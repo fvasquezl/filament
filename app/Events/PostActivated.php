@@ -54,8 +54,8 @@ class PostActivated implements ShouldBroadcast
         ];
     }
 
-    // public function broadcastWhen(): bool
-    // {
-    //     return $this->post->active === true;
-    // }
+    public function broadcastWhen(): bool
+    {
+        return $this->post->active === true;
+    }
 }

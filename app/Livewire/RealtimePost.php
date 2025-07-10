@@ -35,26 +35,11 @@ class RealtimePost extends Component
     }
 
 
-    public function getListeners()
-    {
-        if ($this->houseId) {
-            return [
-                "echo-private:house.{$this->houseId},post.activated" => 'handlePostUpdated',
-            ];
-        }
-        return [];
-    }
-    
+
     public function handlePostUpdated($event = null)
     {
-        \Log::info('Evento recibido en Livewire', [
-            'event' => $event,
-            'houseId' => $this->houseId,
-            'current_post' => $this->latestPost
-        ]);
-        
+        \Log::info('handlePostUpdated called', ['event' => $event]);
         if (!$event || !is_array($event)) {
-            \Log::warning('Evento inválido recibido');
             return;
         }
 
@@ -68,15 +53,13 @@ class RealtimePost extends Component
                 'created_at' => $event['created_at'] ?? null,
                 'updated_at' => $event['updated_at'] ?? null,
             ];
-            \Log::info('Post actualizado en componente', $this->latestPost);
+
         } else if (($event['id'] ?? null) === ($this->latestPost['id'] ?? null)) {
             // Si el post actual se desactivó, limpiar la vista
             $this->latestPost = [];
-            \Log::info('Post desactivado, vista limpiada');
+
         }
 
-        // Forzar re-render del componente
-        $this->dispatch('$refresh');
     }
 
 

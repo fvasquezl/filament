@@ -1,3 +1,11 @@
+{{-- Incluir Vite assets --}}
+@if(app()->environment('local'))
+    @vite(['resources/js/app.js'])
+@else
+    <script src="{{ asset('build/assets/app.js') }}" defer></script>
+@endif
+
+@stack('scripts')
 <x-filament-panels::page>
     <style>
         /* Solo hacer transparente el contenido principal, no el sidebar */
@@ -24,12 +32,3 @@
     </div>
 
 </x-filament-panels::page>
-
-{{-- Incluir Vite assets --}}
-@if(app()->environment('local'))
-    @vite(['resources/js/app.js'])
-@else
-    <script src="{{ asset('build/assets/app.js') }}" defer></script>
-@endif
-
-@stack('scripts')

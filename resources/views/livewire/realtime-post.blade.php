@@ -15,23 +15,12 @@
 <script>
     document.addEventListener('livewire:initialized', () => {
         const houseId = @js($houseId);
-        console.log('Component initialized for house:', houseId);
-        
+
         if (houseId && window.Echo) {
-            console.log('Echo is available, subscribing to channel...');
-            
-            // Suscribirse manualmente para debug
             window.Echo.private('house.' + houseId)
                 .listen('.post.activated', (e) => {
-                    console.log('Echo event received:', e);
-                    // Livewire debería manejar esto automáticamente también
                     $wire.handlePostUpdated(e);
-                })
-                .error((error) => {
-                    console.error('Echo error:', error);
                 });
-        } else {
-            console.warn('Echo not available or houseId missing');
         }
     });
 </script>
