@@ -45,14 +45,8 @@ class RealtimePost extends Component
 
         // Si el post recibido está activo, actualizar la vista
         if ($event['active'] ?? false) {
-            $this->latestPost = [
-                'id' => $event['id'] ?? null,
-                'title' => $event['title'] ?? null,
-                'image' => $event['image'] ?? null,
-                'active' => $event['active'] ?? false,
-                'created_at' => $event['created_at'] ?? null,
-                'updated_at' => $event['updated_at'] ?? null,
-            ];
+            $this->latestPost = $event;
+
 
         } else if (($event['id'] ?? null) === ($this->latestPost['id'] ?? null)) {
             // Si el post actual se desactivó, limpiar la vista

@@ -17,6 +17,7 @@ class PostActivated implements ShouldBroadcast
 
     public $post;
 
+
     /**
      * Create a new event instance.
      */
@@ -44,14 +45,8 @@ class PostActivated implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        return [
-            'id' => $this->post->id,
-            'title' => $this->post->title,
-            'image' => $this->post->image_url, // Usar accessor
-            'active' => $this->post->active,
-            'created_at' => $this->post->created_at,
-            'updated_at' => $this->post->updated_at,
-        ];
+        $this->post['image'] = $this->post->image_url;
+        return $this->post->toArray();
     }
 
     public function broadcastWhen(): bool
