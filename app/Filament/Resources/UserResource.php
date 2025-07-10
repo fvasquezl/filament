@@ -37,7 +37,10 @@ class UserResource extends Resource
                     ->relationship('house', 'name')
                     ->preload()
                     ->placeholder('Seleccione una casa')
-                    ->nullable()
+                    ->nullable(),
+                Forms\Components\CheckboxList::make('roles')
+                    ->relationship('roles', 'name')
+                    ->searchable(),
             ]);
     }
 
@@ -50,9 +53,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->copyable()
                     ->searchable(),
-                Tables\Columns\BadgeColumn::make('role.name')
+                Tables\Columns\BadgeColumn::make('roles.name')
                     ->label('Role')
-                    ->icon('heroicon-o-badge-check')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('house.name')

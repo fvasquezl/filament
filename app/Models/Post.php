@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\PostActivated;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -26,20 +27,23 @@ class Post extends Model
             if ($post->isDirty('active') && $post->active) {
                 $houseIds = $post->houses()->pluck('houses.id')->toArray();
 
-                static::whereHas('houses', function ($query) use ($houseIds) {
-                    $query->whereIn('houses.id', $houseIds);
-                })
-                    ->where('id', '!=', $post->id)
-                    ->where('active', true)
-                    ->update(['active' => false]);
+                // Usar withoutEvents para evitar disparar eventos en cascada
+                static::withoutEvents(function () use ($post, $houseIds) {
+                    static::whereHas('houses', function ($query) use ($houseIds) {
+                        $query->whereIn('houses.id', $houseIds);
+                    })
+                        ->where('id', '!=', $post->id)
+                        ->where('active', true)
+                        ->update(['active' => false]);
+                });
             }
         });
 
-        // static::updated(function ($post) {
-        //     if ($post->wasChanged('active')) {
-        //         broadcast(new PostChanged($post->fresh()))->toOthers();
-        //     }
-        // });
+        static::updated(function ($post) {
+            if ($post->wasChanged('active') && $post->active) {
+                broadcast(new PostActivated($post->fresh()))->toOthers();
+            }
+        });
     }
 
 
